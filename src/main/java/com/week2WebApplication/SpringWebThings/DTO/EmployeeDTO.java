@@ -5,13 +5,15 @@ public class EmployeeDTO {
     private  int EmployeeID;
     private  String Email;
     private  boolean isActive;
+    private int Age;
 
     public EmployeeDTO(){}
-    public EmployeeDTO(String name, int employeeID, String email, boolean isActive) {
+    public EmployeeDTO(String name, int employeeID, String email, boolean isActive, int Age) {
         this.name = name;
         this.EmployeeID = employeeID;
         this.Email = email;
         this.isActive = isActive;
+        this.Age = Age;
     }
 
     public String getName() {
@@ -25,6 +27,8 @@ public class EmployeeDTO {
     public String getEmail() {
         return Email;
     }
+
+    public Integer getAge(){ return Age;}
 
     public boolean isActive() {
         return isActive;
@@ -45,4 +49,6 @@ public class EmployeeDTO {
     public void setActive(boolean active) {
         isActive = active;
     }
+
+    public void setAge(Integer age){ Age =Age; }
 }
