@@ -1,8 +1,10 @@
 package com.week2WebApplication.SpringWebThings.entities;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
+
 
 import java.time.LocalDate;
 
@@ -10,6 +12,7 @@ import java.time.LocalDate;
 @Table(name = "employees")
 @Getter
 @Setter
+ 
 public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,5 +22,7 @@ public class EmployeeEntity {
     private Integer age;
     private LocalDate dateOfJoining;
     private Boolean isActive;
+ 
 }
 
+}
