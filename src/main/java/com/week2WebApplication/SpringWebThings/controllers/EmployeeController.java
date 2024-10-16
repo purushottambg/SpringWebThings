@@ -1,10 +1,8 @@
 package com.week2WebApplication.SpringWebThings.Controllers; //This is from pull request, need to overwrite
 
 import com.week2WebApplication.SpringWebThings.DTO.EmployeeDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 //her we can write a logic for employee controller
 @RestController
 public class EmployeeController {
@@ -28,5 +26,17 @@ public class EmployeeController {
     public String OptionalParam(@RequestParam(required = false) int age,
                                 @RequestParam(required = false) String Name){
         return "Hi "+Name+", Your age is "+age;
+    }
+    @PutMapping(path = "/PutRequest")
+    public String PutReq(){
+        return "Hello from Put";
+    }
+    @PostMapping(path = "/postMappinng")
+    public String PostMapping(){
+        return "Hello String from Post";
+    }
+    @PatchMapping (path = "/patchMapping")
+    public String PatchMapping(){
+        return "Hello from Patching";
     }
 }
