@@ -1,38 +1,22 @@
-package com.week2WebApplication.SpringWebThings.controllers;
+package com.week2WebApplication.SpringWebThings.Controllers; //This is from pull request, need to overwrite
 
-import com.week2WebApplication.SpringWebThings.entities.EmployeeEntity;
-import com.week2WebApplication.SpringWebThings.repositories.EmployeeRepository;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
-import java.util.List;
-
+import com.week2WebApplication.SpringWebThings.DTO.EmployeeDTO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+//her we can write a logic for employee controller
 @RestController
-@RequestMapping(path = "/")
 public class EmployeeController {
-    private final EmployeeRepository employeeRepository;
-    public EmployeeController (EmployeeRepository employeeRepository){
-        this.employeeRepository = employeeRepository;
+    @GetMapping(path="/SecretMessage")
+    public String FirstMessage(){
+        return "This is the first Message";
     }
-    @GetMapping(path = "employees/{employeeID}")
-    public boolean getEmployee(@PathVariable Long employeeID) {
-        return employeeRepository.findAllById(Collections.singleton(employeeID)).remove(null);
+    @GetMapping(path = "/EmployeesId")
+    public String EmployeeDetails(){
+        return "So you're here for employee details,\t Kindly enter the Employee Id of specific employee and retry";
     }
-    @GetMapping
-    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false, name = "inputAge") Integer age, @RequestParam(required = false) String sortBy) {
-        return employeeRepository.findAll();
-    }
-
-    @GetMapping(path = "/error/{cnt}")
-    public int error(@PathVariable int cnt){
-        return cnt;
-    }
-    @GetMapping(path = "/employees")
-    public String getAllEmployees(@RequestParam Integer Age){
-        return "Hi age is: "+Age;
-    }
-    @PostMapping
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity inputEmployee){
-        return employeeRepository.save(inputEmployee);
+    @GetMapping(path = "/{empid}")
+    public EmployeeDTO EmployeeID(@PathVariable int empid){
+        return new EmployeeDTO(empid, "7666947497", "Pallavi Purushottam", "Pallavis Heart", 27000, "pediatricks", "DrPallavi.Darade@pgutthe.com" );
     }
 }
