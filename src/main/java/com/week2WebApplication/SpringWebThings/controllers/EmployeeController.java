@@ -39,4 +39,8 @@ public class EmployeeController {
     public String PatchMapping(){
         return "Hello from Patching";
     }
+    @DeleteMapping(path = "deleteMapping")
+    public String DeleteMapping(){
+        return "Hello From Delete";
+    }
 }
