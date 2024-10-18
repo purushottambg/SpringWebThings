@@ -10,5 +10,4 @@ public class JavaSpringWebThingsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JavaSpringWebThingsApplication.class, args);
 	}
-
 }

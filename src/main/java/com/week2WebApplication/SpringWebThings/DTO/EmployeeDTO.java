@@ -2,7 +2,6 @@ package com.week2WebApplication.SpringWebThings.DTO;
 
 import org.springframework.stereotype.Component;
 
-@Component
 public class EmployeeDTO {
     int ID;
     String Number;
