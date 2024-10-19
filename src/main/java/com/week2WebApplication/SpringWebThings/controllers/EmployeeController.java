@@ -25,6 +25,10 @@ public class EmployeeController {
     public EmployeeEntity EmployeeID(@PathVariable int empid) {
        return employeeRepo.findById(empid).orElse(null);
     }
+    @GetMapping(path = "/employees")   //Receive the data from software
+    public List<EmployeeEntity> AllEmployees() {
+        return employeeRepo.findAll();
+    }
 
     @PutMapping(path = "/PutRequest")  //Update existing data
     public String PutReq(){
