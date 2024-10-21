@@ -18,11 +18,6 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(path="/SecretMessage")    //Receive the data from software
-    public String FirstMessage(){
-        return "This is the first Message";
-    }
-
     @GetMapping(path = "/{empid}")   //Receive the data from software
     public EmployeeDTO EmployeeID(@PathVariable int empid) {
        return employeeService.getEmployeeByID(empid);
@@ -47,8 +42,8 @@ public class EmployeeController {
         return "Hello from Patching";
     }
 
-    @DeleteMapping(path = "/deleteMapping")    //Delete the data
-    public String DeleteMapping(){
-        return "Hello From Delete";
+    @DeleteMapping(path = "/deleteEmployee/{empid}")    //Delete the data
+    public void deleteEmployee(@PathVariable int empid){
+        employeeService.deleteEmployeeByID(empid);
     }
 }

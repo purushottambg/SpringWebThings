@@ -47,4 +47,11 @@ public class EmployeeService {
         EmployeeEntity savedEmployeeEntity = employeeRepo.save(employeeEntity);
         return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
     }
+
+    public boolean deleteEmployeeByID(int empid) {
+        boolean exist = employeeRepo.existsById(empid);
+        if(!exist) return false;
+        employeeRepo.deleteById(empid);
+        return true;
+    }
 }
