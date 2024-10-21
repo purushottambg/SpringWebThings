@@ -3,17 +3,19 @@ package com.week2WebApplication.SpringWebThings.Controllers; //This is from pull
 import com.week2WebApplication.SpringWebThings.DTO.EmployeeDTO;
 import com.week2WebApplication.SpringWebThings.Repositories.EmployeeRepo;
 import com.week2WebApplication.SpringWebThings.entities.EmployeeEntity;
+import com.week2WebApplication.SpringWebThings.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping(path="/employee")
 public class EmployeeController {
 
-    private final EmployeeRepo employeeRepo;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepo employeeRepo) { //Constructor based dependency injection
-        this.employeeRepo = employeeRepo;
+    public EmployeeController (EmployeeService employeeService) { //Constructor based dependency injection
+        this.employeeService = employeeService;
     }
 
     @GetMapping(path="/SecretMessage")    //Receive the data from software
@@ -22,22 +24,22 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/{empid}")   //Receive the data from software
-    public EmployeeEntity EmployeeID(@PathVariable int empid) {
-       return employeeRepo.findById(empid).orElse(null);
+    public EmployeeDTO EmployeeID(@PathVariable int empid) {
+       return employeeService.getEmployeeByID(empid);
     }
-    @GetMapping(path = "/employees")   //Receive the data from software
-    public List<EmployeeEntity> AllEmployees() {
-        return employeeRepo.findAll();
+    @GetMapping(path = "/allEmployees")   //Receive the data from software
+    public List<EmployeeDTO> AllEmployees() {
+        return employeeService.getAllEmployee();
     }
 
-    @PutMapping(path = "/PutRequest")  //Update existing data
+    @PutMapping(path = "/putRequest")  //Update existing data
     public String PutReq(){
         return "Hello from Put";
     }
 
-    @PostMapping(path = "/postMapping")  //Create new data
-    public EmployeeEntity CreateEmployee(@RequestBody EmployeeEntity inputEmployee){
-        return  employeeRepo.save(inputEmployee);
+    @PostMapping(path = "/createNewEmployee")  //Create new data
+    public EmployeeDTO CreateEmployee(@RequestBody EmployeeEntity inputEmployee){
+        return  employeeService.save(inputEmployee);
     }
 
     @PatchMapping (path = "/patchMapping")   //Partially Update existing data
