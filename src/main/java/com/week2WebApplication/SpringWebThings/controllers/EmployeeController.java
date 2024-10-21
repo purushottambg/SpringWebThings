@@ -32,9 +32,9 @@ public class EmployeeController {
         return employeeService.getAllEmployee();
     }
 
-    @PutMapping(path = "/putRequest")  //Update existing data
-    public String PutReq(){
-        return "Hello from Put";
+    @PutMapping(path = "/updateEmployee/{empid}")  //Update existing data or create new one
+    public EmployeeDTO updateEmployee(@RequestBody EmployeeDTO employeeDTO, @PathVariable int empid){
+        return employeeService.updateEmployee(employeeDTO, empid);
     }
 
     @PostMapping(path = "/createNewEmployee")  //Create new data

@@ -40,4 +40,11 @@ public class EmployeeService {
         EmployeeEntity employeeEntity1= employeeRepo.save(createNewEmployee);
         return modelMapper.map(employeeEntity1, EmployeeDTO.class);
     }
+
+    public EmployeeDTO updateEmployee(EmployeeDTO employeeDTO, int empid) {  //Update Employee or save if new
+        EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class);
+        employeeEntity.setID(empid);
+        EmployeeEntity savedEmployeeEntity = employeeRepo.save(employeeEntity);
+        return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
+    }
 }
