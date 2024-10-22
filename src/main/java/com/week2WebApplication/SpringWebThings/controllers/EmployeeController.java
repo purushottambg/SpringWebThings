@@ -7,6 +7,7 @@ import com.week2WebApplication.SpringWebThings.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path="/employee")
@@ -27,7 +28,7 @@ public class EmployeeController {
         return employeeService.getAllEmployee();
     }
 
-    @PutMapping(path = "/updateEmployee/{empid}")  //Update existing data or create new one
+    @PutMapping(path = "/updateEmployee/{empid}")  //Update existing data or create new one if not exist
     public EmployeeDTO updateEmployee(@RequestBody EmployeeDTO employeeDTO, @PathVariable int empid){
         return employeeService.updateEmployee(employeeDTO, empid);
     }
@@ -37,13 +38,13 @@ public class EmployeeController {
         return  employeeService.save(inputEmployee);
     }
 
-    @PatchMapping (path = "/patchMapping")   //Partially Update existing data
-    public String PatchMapping(){
-        return "Hello from Patching";
+    @PatchMapping (path = "/patchMapping/{empid}")   //Partially Update existing data
+    public EmployeeDTO updateUserPartiallyByPatchMapping(@RequestBody Map<String, Object> updates, @PathVariable int empid){
+        return employeeService.updatePartiallyUser(empid, updates);
     }
 
     @DeleteMapping(path = "/deleteEmployee/{empid}")    //Delete the data
-    public void deleteEmployee(@PathVariable int empid){
-        employeeService.deleteEmployeeByID(empid);
+    public boolean deleteEmployee(@PathVariable int empid){
+        return employeeService.deleteEmployeeByID(empid);
     }
 }
