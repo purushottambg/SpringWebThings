@@ -4,6 +4,8 @@ import com.week2WebApplication.SpringWebThings.DTO.EmployeeDTO;
 import com.week2WebApplication.SpringWebThings.Repositories.EmployeeRepo;
 import com.week2WebApplication.SpringWebThings.entities.EmployeeEntity;
 import com.week2WebApplication.SpringWebThings.services.EmployeeService;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,12 +36,12 @@ public class EmployeeController {
     }
 
     @PostMapping(path = "/createNewEmployee")  //Create new data
-    public EmployeeDTO CreateEmployee(@RequestBody EmployeeEntity inputEmployee){
+    public EmployeeDTO CreateEmployee(@Valid @RequestBody EmployeeEntity inputEmployee){
         return  employeeService.save(inputEmployee);
     }
 
     @PatchMapping (path = "/patchMapping/{empid}")   //Partially Update existing data
-    public EmployeeDTO updateUserPartiallyByPatchMapping(@RequestBody Map<String, Object> updates, @PathVariable int empid){
+    public EmployeeDTO updateUserPartiallyByPatchMapping(@Valid @RequestBody Map<String, Object> updates, @PathVariable int empid){
         return employeeService.updatePartiallyUser(empid, updates);
     }
 
