@@ -5,11 +5,14 @@ import com.week2WebApplication.SpringWebThings.Repositories.EmployeeRepo;
 import com.week2WebApplication.SpringWebThings.entities.EmployeeEntity;
 import com.week2WebApplication.SpringWebThings.services.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="/employee")
@@ -22,8 +25,11 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/{empid}")   //Receive the data from software
-    public EmployeeDTO EmployeeID(@PathVariable int empid) {
-       return employeeService.getEmployeeByID(empid);
+    public ResponseEntity<EmployeeDTO> EmployeeID(@PathVariable int empid) {
+        Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeByID(empid);
+        return employeeDTO
+                .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
+                .orElse(ResponseEntity.notFound().build());
     }
     @GetMapping(path = "/allEmployees")   //Receive the data from software
     public List<EmployeeDTO> AllEmployees() {
@@ -36,17 +42,21 @@ public class EmployeeController {
     }
 
     @PostMapping(path = "/createNewEmployee")  //Create new data
-    public EmployeeDTO CreateEmployee(@Valid @RequestBody EmployeeEntity inputEmployee){
-        return  employeeService.save(inputEmployee);
+    public ResponseEntity<EmployeeDTO> CreateEmployee(@Valid @RequestBody EmployeeDTO inputEmployee){
+        EmployeeDTO employeeDTO =employeeService.createNewEmployee(inputEmployee);
+        return new ResponseEntity<>(employeeDTO, HttpStatus.CREATED);
     }
 
     @PatchMapping (path = "/patchMapping/{empid}")   //Partially Update existing data
-    public EmployeeDTO updateUserPartiallyByPatchMapping(@Valid @RequestBody Map<String, Object> updates, @PathVariable int empid){
-        return employeeService.updatePartiallyUser(empid, updates);
+    public ResponseEntity<EmployeeDTO> updateUserPartiallyByPatchMapping(@Valid @RequestBody Map<String, Object> updates, @PathVariable int empid){
+        return ResponseEntity.ok(employeeService.updatePartiallyUser(empid, updates));
     }
 
     @DeleteMapping(path = "/deleteEmployee/{empid}")    //Delete the data
-    public boolean deleteEmployee(@PathVariable int empid){
-        return employeeService.deleteEmployeeByID(empid);
+    public ResponseEntity<Boolean> deleteEmployee(@PathVariable int empid){
+        boolean isDeleted = employeeService.deleteEmployeeByID(empid);
+        if(isDeleted)
+            return ResponseEntity.ok(true);
+        return ResponseEntity.notFound().build();
     }
 }

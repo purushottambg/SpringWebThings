@@ -4,6 +4,7 @@ package com.week2WebApplication.SpringWebThings.services;
 import com.week2WebApplication.SpringWebThings.DTO.EmployeeDTO;
 import com.week2WebApplication.SpringWebThings.Repositories.EmployeeRepo;
 import com.week2WebApplication.SpringWebThings.entities.EmployeeEntity;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.data.util.ReflectionUtils;
@@ -11,6 +12,7 @@ import org.springframework.data.util.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -32,12 +34,12 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    public EmployeeDTO getEmployeeByID(int empid){   //Function should return only one employee who's empid matches to the input parameter
+    public Optional<EmployeeDTO> getEmployeeByID(int empid){   //Function should return only one employee who's empid matches to the input parameter
         EmployeeEntity employeeEntity = employeeRepo.findById(empid).orElse(null);
-        return modelMapper.map(employeeEntity, EmployeeDTO.class);
+        return employeeRepo.findById(empid).map(employeeEntity1 -> modelMapper.map(employeeRepo, EmployeeDTO.class));
     }
 
-    public EmployeeDTO save(EmployeeEntity inputEmployee) {
+    public EmployeeDTO save(EmployeeDTO inputEmployee) {
         EmployeeEntity createNewEmployee = modelMapper.map(inputEmployee, EmployeeEntity.class);
         EmployeeEntity employeeEntity1= employeeRepo.save(createNewEmployee);
         return modelMapper.map(employeeEntity1, EmployeeDTO.class);
@@ -69,5 +71,11 @@ public class EmployeeService {
             ReflectionUtils.setField(filedToBeUpdated, employeeEntity, value);
         });
         return modelMapper.map(employeeRepo.save(employeeEntity), EmployeeDTO.class);
+    }
+
+    public EmployeeDTO createNewEmployee(@Valid EmployeeDTO inputEmployee) {
+        EmployeeEntity toSaveEmployeeEntity = modelMapper.map(inputEmployee, EmployeeEntity.class);
+        EmployeeEntity savedEmployeeEntity = employeeRepo.save(toSaveEmployeeEntity);
+        return  modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
     }
 }
